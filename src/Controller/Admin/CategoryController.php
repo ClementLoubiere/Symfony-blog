@@ -100,6 +100,9 @@ class CategoryController extends AbstractController
 
         $this->addFlash('success', 'La catégorie a été supprimée');
 
+
         return $this->redirectToRoute('app_admin_category_index');
+
+
     }
 }
