@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,6 +32,17 @@ class Category
      */
     private $name;
 
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Article", mappedBy="category")
+     */
+    private $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,4 +59,24 @@ class Category
 
         return $this;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    /**
+     * @param Collection $articles
+     * @return Category
+     */
+    public function setArticles(Collection $articles): Category
+    {
+        $this->articles = $articles;
+        return $this;
+    }
+
+
 }

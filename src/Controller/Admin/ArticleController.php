@@ -28,6 +28,7 @@ class ArticleController extends AbstractController
         $repository = $em->getRepository(Article::class);
         $articles = $repository->findBy([], ['publicationDate' => 'desc']);
 
+
         return $this->render(
             'admin/article/index.html.twig',
             [

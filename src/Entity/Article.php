@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,7 +38,7 @@ class Article
 
     /**
      * @var Category
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank(message="La catégorie est obligatoire")
      */
@@ -55,6 +57,17 @@ class Article
      *      mimeTypesMessage="Le fichier doit être une image")
      */
     private $image;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="article")
+     */
+    private $comment;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -149,6 +162,24 @@ class Article
     public function setImage($image)
     {
         $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param Collection $comment
+     * @return Article
+     */
+    public function setComment(Collection $comment): Article
+    {
+        $this->comment = $comment;
         return $this;
     }
 
